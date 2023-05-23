@@ -1,5 +1,8 @@
+import getCurrentUser from "./actions/getCurrentUser";
+import LoginModal from "./components/modals/LoginModal";
 import Modal from "./components/modals/Modal";
 import RegisterModal from "./components/modals/RegisterModal";
+import RentModal from "./components/modals/RentModal";
 import NavBar from "./components/navbar/NavBar";
 import ToasterProvider from "./components/providers/ToasterProvider";
 import "./globals.css";
@@ -12,17 +15,20 @@ export const metadata = {
   description: "Airbnb your home.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser()
   return (
     <html lang="en">
       <body className={font.className}>
         <ToasterProvider></ToasterProvider>
         <RegisterModal></RegisterModal>
-        <NavBar></NavBar>{children}</body>
+        <LoginModal></LoginModal>
+        <RentModal></RentModal>
+        <NavBar currentUser={currentUser}></NavBar>{children}</body>
     </html>
   );
 }
